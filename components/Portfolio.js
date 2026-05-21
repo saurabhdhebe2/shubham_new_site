@@ -21,7 +21,7 @@ export default function Portfolio({ videos, onOpen }) {
       <div className="section-head">
         <div>
           <div className="mono">§ 01 / Selected Work</div>
-          <h2 className="section-title">Latest <span className="it">edits.</span></h2>
+          <h2 className="section-title">Latest <span className="it">work.</span></h2>
         </div>
         <div className="filter-bar">
           {CATS.map(c => (
