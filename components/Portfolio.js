@@ -18,11 +18,14 @@ export default function Portfolio({ videos, onOpen }) {
 
   return (
     <section id="work" className="section">
-      <div className="section-head">
+      <div className="section-head section-head-stacked">
         <div>
           <div className="mono">§ 01 / Selected Work</div>
           <h2 className="section-title">Latest <span className="it">work.</span></h2>
         </div>
+      </div>
+
+      <div className="filter-bar-sticky">
         <div className="filter-bar">
           {CATS.map(c => (
             <button
