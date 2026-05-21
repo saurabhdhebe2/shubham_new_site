@@ -27,7 +27,7 @@ export default function Hero({ onContact, onScrollTo }) {
       <div className="hero-content">
         <div className="hero-eyebrow">
           <span className="line" />
-          <span className="eyebrow">Est. 2020 · Mumbai</span>
+          <span className="eyebrow">Est. 4 · Mumbai</span>
         </div>
         <h1 className="hero-headline">
           Shubham<br />

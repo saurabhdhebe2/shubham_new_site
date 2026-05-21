@@ -129,7 +129,7 @@ const JSON_LD_ORG = {
   url: SITE_URL,
   logo: `${SITE_URL}/logo.png`,
   founder: { "@type": "Person", name: "Shubham Dhebe" },
-  foundingDate: "2020",
+  foundingDate: "2024",
   description:
     "Independent film and post-production studio. End-to-end production for brand films, commercials, music films, documentaries, podcasts, and reels.",
   address: {

@@ -14,7 +14,7 @@ export default function CTA({ onContact, onToast }) {
       <div className="cta-eyebrow eyebrow">Let's make something</div>
       <h2 className="cta-headline">
         Cinematic<span className="period">.</span>
-        <span className="it">- and on time.</span>
+        <span className="it"> and on time.</span>
       </h2>
       <button className="cta-email" data-cursor="Copy" onClick={onCopy}>
         <span>{CONTACT_EMAIL}</span>
