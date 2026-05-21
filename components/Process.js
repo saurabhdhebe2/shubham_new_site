@@ -9,7 +9,7 @@ export default function Process() {
           <h2 className="section-title">Four steps. <span className="it">No surprises.</span></h2>
         </div>
         <p style={{ maxWidth: 420, color: 'var(--fg-muted)', margin: 0, lineHeight: 1.6 }}>
-          A typical project runs three weeks from kickoff to delivery. The longest part is sitting with the edit the rest is craft.
+          A typical project runs 9-10 days from kickoff to delivery. The longest part is sitting with the edit, the rest is craft.
         </p>
       </div>
       <div className="process-grid">

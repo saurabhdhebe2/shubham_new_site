@@ -363,8 +363,26 @@ button{font-family:inherit;color:inherit}
 .drawer-sub{color:var(--fg-muted);font-size:14px;line-height:1.5;margin-bottom:16px}
 .field{position:relative;display:flex;flex-direction:column}
 .field input, .field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-strong);padding:24px 0 10px;color:var(--fg);font-family:inherit;font-size:15px;outline:none;transition:border-color var(--dur-fast);resize:none;display:block}
-.field textarea{min-height:96px;padding:24px 0 16px;line-height:1.5}
 .field input:focus, .field textarea:focus{border-bottom-color:var(--accent)}
+/* Textarea has its own visible box so users see where to type */
+.field-textarea{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:6px;padding:8px 14px;transition:border-color var(--dur-fast)}
+.field-textarea:focus-within{border-color:var(--accent)}
+.field-textarea textarea{border-bottom:none;min-height:108px;padding:20px 0 8px;line-height:1.55}
+.field-textarea label{left:14px;top:14px}
+.field-textarea textarea:focus + label,
+.field-textarea textarea:not(:placeholder-shown) + label{top:6px;left:14px}
+
+.chip-group{display:flex;flex-direction:column;gap:10px}
+.form-error{background:rgba(255,77,46,.08);border:1px solid rgba(255,77,46,.4);color:var(--accent-hot);padding:12px 16px;border-radius:6px;font-size:13px;line-height:1.4}
+
+.drawer-foot{display:flex;align-items:center;justify-content:center;gap:12px;font:500 10px/1 var(--font-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);padding-top:8px;flex-wrap:wrap;text-align:center}
+.drawer-foot a{color:var(--accent);transition:color var(--dur-fast)}
+.drawer-foot a:hover{color:var(--accent-hot)}
+
+.drawer-success{align-items:center;text-align:center;justify-content:center;gap:20px;padding-top:48px}
+.drawer-success .drawer-title{text-align:center}
+.drawer-success .drawer-sub{text-align:center;max-width:340px}
+.success-check{margin-bottom:8px}
 .field label{position:absolute;top:24px;left:0;font:500 11px/1 var(--font-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-muted);pointer-events:none;transition:all var(--dur-fast) var(--ease-cinematic)}
 .field input:focus + label,.field textarea:focus + label,.field input:not(:placeholder-shown) + label,.field textarea:not(:placeholder-shown) + label{top:0;font-size:9px;color:var(--accent)}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -372,9 +390,12 @@ button{font-family:inherit;color:inherit}
 .chip:hover{color:var(--fg);border-color:var(--fg-muted)}
 .chip.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .chip-label{font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;display:block}
-.send-btn{width:100%;height:64px;background:var(--accent);color:var(--bg);border:none;font:500 12px/1 var(--font-mono);letter-spacing:.24em;text-transform:uppercase;cursor:none;display:flex;align-items:center;justify-content:center;gap:14px;transition:all var(--dur-fast);position:relative;overflow:hidden}
+.send-btn{width:100%;height:64px;background:var(--accent);color:var(--bg);border:none;font:500 12px/1 var(--font-mono);letter-spacing:.24em;text-transform:uppercase;cursor:none;display:flex;align-items:center;justify-content:center;gap:14px;transition:background var(--dur-fast), color var(--dur-fast);position:relative;overflow:hidden;border-radius:6px}
 .send-btn:hover{background:var(--accent-hot);color:var(--fg)}
-.send-btn.loading,.send-btn.success{background:var(--bg-card);color:var(--accent)}
+.send-btn:disabled{opacity:.85;cursor:not-allowed}
+.send-btn.loading{background:var(--bg-card);color:var(--accent);border:1px solid var(--border-strong)}
+.send-btn.error{background:transparent;color:var(--accent-hot);border:1px solid var(--accent-hot)}
+.send-btn.error:hover{background:var(--accent-hot);color:var(--fg)}
 .send-spinner{width:18px;height:18px;border:1.5px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
