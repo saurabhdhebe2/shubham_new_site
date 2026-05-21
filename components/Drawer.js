@@ -32,7 +32,7 @@ export default function Drawer({ open, onClose }) {
       form.note || '(no notes)',
       '─'.repeat(40),
       '',
-      'Sent from shubhamfilm.co',
+      'Sent from shubhamfilmproductions.com',
     ].filter(Boolean).join('\n');
     const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${encodeURIComponent(bodyLines)}`;
 

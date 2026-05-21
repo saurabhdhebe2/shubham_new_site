@@ -143,7 +143,7 @@ const JSON_LD_ORG = {
       "@type": "ContactPoint",
       telephone: "+91-7738616434",
       contactType: "customer service",
-      email: "hello@shubhamfilm.com",
+      email: "hello@shubhamfilmproductions.com",
       areaServed: "IN",
       availableLanguage: ["English", "Hindi", "Marathi"],
     },
