@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shubham Film Productions
 
-## Getting Started
+The official site of **Shubham Dhebe** - director, cinematographer (DOP), and editor based in Mumbai. End-to-end film production for brand films, commercials, music films, documentaries, podcasts, and reels.
 
-First, run the development server:
+Built with [Next.js](https://nextjs.org) (App Router) + vanilla CSS, with portfolio content pulled live from YouTube playlists.
+
+## Stack
+
+- **Next.js 16** (App Router, server components, ISR)
+- **React 19**
+- **Vanilla CSS** - no Tailwind, no UI libraries
+- **YouTube Data API v3** - videos auto-update by adding to playlists
+- **Playwright** - end-to-end test suite
+
+## Getting started
+
+Requires **Node ≥ 20** (Next.js 16 minimum).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+nvm use 22
+npm install
+cp .env.local.example .env.local   # then fill in YouTube API key + playlist IDs
+npm run dev                         # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## YouTube playlist wiring
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Each portfolio category maps to a YouTube playlist. Add a video to a playlist and it auto-appears on the site (cached 1 hour via ISR).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Category    | Env var                         |
+|-------------|---------------------------------|
+| Reels       | `YOUTUBE_PLAYLIST_REELS`        |
+| Documentary | `YOUTUBE_PLAYLIST_DOCUMENTARY`  |
+| Music Films | `YOUTUBE_PLAYLIST_MUSIC`        |
+| Podcast     | `YOUTUBE_PLAYLIST_PODCAST`      |
+| Commercial  | `YOUTUBE_PLAYLIST_COMMERCIAL`   |
 
-## Learn More
+Plus: `YOUTUBE_API_KEY` (Google Cloud Console → YouTube Data API v3) and `NEXT_PUBLIC_HERO_VIDEO_ID` (single YouTube video ID for the hero background).
 
-To learn more about Next.js, take a look at the following resources:
+## Tests
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm test            # headless Playwright run
+npm run test:ui     # interactive UI mode
+npm run test:headed # watch the browser
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+16 e2e tests cover: hero rendering, YouTube background, all 6 category filters, every tile's YouTube embed playability (oEmbed verified), contact drawer, mobile nav, and grid packing.
 
-## Deploy on Vercel
+## Deploy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This site auto-deploys to Vercel on push to `main`. Set the same env vars in **Vercel → Settings → Environment Variables**.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Links
+
+- [Instagram](https://www.instagram.com/shubham.dhebe/)
+- [YouTube](https://www.youtube.com/@shubhamdhebe)
+- [Vimeo](https://vimeo.com/shubhamdhebe)
+- [LinkedIn](https://www.linkedin.com/in/shubhamdhebe/)
+- [IMDb](https://www.imdb.com/name/nm16964446/)
