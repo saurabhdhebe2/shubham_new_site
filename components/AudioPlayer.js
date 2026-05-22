@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-
-const STORAGE_KEY = 'audio-consent';
+import { Speaker } from '@/components/Icons';
 
 export default function AudioPlayer() {
   const audioRef = useRef(null);
@@ -11,22 +10,15 @@ export default function AudioPlayer() {
   const [askVisible, setAskVisible] = useState(false);
 
   useEffect(() => {
-    const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
-    if (saved === 'yes') {
-      setConsent('yes');
-    } else if (saved === 'no') {
-      setConsent('no');
-    } else {
-      const t = setTimeout(() => setAskVisible(true), 900);
-      return () => clearTimeout(t);
-    }
+    const t = setTimeout(() => setAskVisible(true), 900);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
     if (consent !== 'yes') return;
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = 0.22;
+    audio.volume = 0.12;
     audio.play().then(() => setPlaying(true)).catch(() => {
       const retry = () => {
         audio.play().then(() => setPlaying(true)).catch(() => {});
@@ -38,13 +30,11 @@ export default function AudioPlayer() {
   }, [consent]);
 
   const accept = () => {
-    localStorage.setItem(STORAGE_KEY, 'yes');
     setAskVisible(false);
     setConsent('yes');
   };
 
   const decline = () => {
-    localStorage.setItem(STORAGE_KEY, 'no');
     setAskVisible(false);
     setConsent('no');
   };
@@ -79,9 +69,13 @@ export default function AudioPlayer() {
       {consent === 'yes' && (
         <div className={`audio-player${playing ? ' ap-playing' : ''}${muted ? ' ap-muted' : ''}`}>
           <button className="ap-btn" onClick={toggle} aria-label={muted ? 'Unmute' : 'Mute'}>
-            <span className="ap-bars">
-              <span /><span /><span /><span />
-            </span>
+            {muted ? (
+              <Speaker muted size={18} />
+            ) : (
+              <span className="ap-bars">
+                <span /><span /><span /><span />
+              </span>
+            )}
           </button>
           <span className="ap-label">Piano Man · Billy Joel</span>
           <audio ref={audioRef} src="/piano-man.mp3" loop preload="auto" />
