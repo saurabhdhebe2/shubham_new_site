@@ -1,8 +1,14 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Speaker } from '@/components/Icons';
+import { Speaker, Pause } from '@/components/Icons';
 
-export default function AudioPlayer() {
+const AUDIO_ENABLED = process.env.NEXT_PUBLIC_ENABLE_AUDIO === 'true';
+const AUDIO_SRC     = process.env.NEXT_PUBLIC_AUDIO_SRC   || '/piano-man.mp3';
+const AUDIO_TITLE   = process.env.NEXT_PUBLIC_AUDIO_TITLE || 'Piano Man · Billy Joel';
+
+export default function AudioPlayer({ paused = false }) {
+  if (!AUDIO_ENABLED) return null;
+
   const audioRef = useRef(null);
   const [consent, setConsent] = useState(null);
   const [muted, setMuted] = useState(false);
@@ -16,18 +22,23 @@ export default function AudioPlayer() {
 
   useEffect(() => {
     if (consent !== 'yes') return;
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.volume = 0.12;
-    audio.play().then(() => setPlaying(true)).catch(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (paused) {
+      a.pause();
+      setPlaying(false);
+      return;
+    }
+    a.volume = 0.12;
+    a.play().then(() => setPlaying(true)).catch(() => {
       const retry = () => {
-        audio.play().then(() => setPlaying(true)).catch(() => {});
+        a.play().then(() => setPlaying(true)).catch(() => {});
       };
       document.addEventListener('click', retry, { once: true });
       document.addEventListener('scroll', retry, { once: true, capture: true });
       document.addEventListener('keydown', retry, { once: true });
     });
-  }, [consent]);
+  }, [consent, paused]);
 
   const accept = () => {
     setAskVisible(false);
@@ -57,7 +68,7 @@ export default function AudioPlayer() {
           </div>
           <div className="aa-body">
             <p className="aa-title">Music experience while you surf?</p>
-            <p className="aa-sub">Piano Man · Billy Joel — low, cafe-style</p>
+            <p className="aa-sub">{AUDIO_TITLE} — low, cafe-style</p>
           </div>
           <div className="aa-actions">
             <button className="aa-btn aa-yes" onClick={accept}>Yes, play</button>
@@ -67,9 +78,11 @@ export default function AudioPlayer() {
       )}
 
       {consent === 'yes' && (
-        <div className={`audio-player${playing ? ' ap-playing' : ''}${muted ? ' ap-muted' : ''}`}>
+        <div className={`audio-player${playing ? ' ap-playing' : ''}${muted ? ' ap-muted' : ''}${paused ? ' ap-paused' : ''}`}>
           <button className="ap-btn" onClick={toggle} aria-label={muted ? 'Unmute' : 'Mute'}>
-            {muted ? (
+            {paused ? (
+              <Pause size={18} />
+            ) : muted ? (
               <Speaker muted size={18} />
             ) : (
               <span className="ap-bars">
@@ -77,8 +90,8 @@ export default function AudioPlayer() {
               </span>
             )}
           </button>
-          <span className="ap-label">Piano Man · Billy Joel</span>
-          <audio ref={audioRef} src="/piano-man.mp3" loop preload="auto" />
+          <span className="ap-label">{AUDIO_TITLE}</span>
+          <audio ref={audioRef} src={AUDIO_SRC} loop preload="auto" />
         </div>
       )}
     </>

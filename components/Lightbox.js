@@ -1,9 +1,11 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Arrow, Cross, Play, Pause, Speaker } from './Icons';
 import StillPoster from './StillPoster';
 
 export default function Lightbox({ project, videos, onClose, onNav }) {
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     if (!project) return;
     const onKey = (e) => {
@@ -18,6 +20,10 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
       window.removeEventListener('keydown', onKey);
     };
   }, [project, onClose, onNav]);
+
+  useEffect(() => {
+    if (project?.youtubeId) setLoading(true);
+  }, [project?.id, project?.youtubeId]);
 
   if (!project) return null;
 
@@ -36,10 +42,12 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
         <div className={'lightbox-player ' + (project.still || 'still-1')}>
           {project.youtubeId ? (
             <iframe
+              key={project.youtubeId}
               src={`https://www.youtube.com/embed/${project.youtubeId}?autoplay=1&rel=0&modestbranding=1&color=white`}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title={project.title}
+              onLoad={() => setLoading(false)}
             />
           ) : (
             <>
@@ -57,14 +65,33 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
               </div>
             </>
           )}
+          {project.youtubeId && (
+            <div className={`lb-loading${loading ? '' : ' hidden'}`}>
+              <span className="ap-bars"><span /><span /><span /><span /></span>
+              <span className="lb-loading-label">Loading</span>
+            </div>
+          )}
           <div className="lightbox-arrows">
-            <button className="lightbox-arrow" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
-              <span style={{ transform: 'rotate(180deg)', display: 'flex' }}><Arrow size={18} /></span>
+            <button className="lightbox-arrow prev" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
+              <span className="lb-arrow-icon prev-icon"><Arrow /></span>
+              <span className="lb-arrow-label">Prev</span>
             </button>
-            <button className="lightbox-arrow" data-cursor="Next" onClick={() => onNav(1)} aria-label="Next">
-              <Arrow size={18} />
+            <button className="lightbox-arrow next" data-cursor="Next" onClick={() => onNav(1)} aria-label="Next">
+              <span className="lb-arrow-label">Next</span>
+              <span className="lb-arrow-icon"><Arrow /></span>
             </button>
           </div>
+        </div>
+
+        <div className="lightbox-arrows-mobile">
+          <button className="lightbox-arrow prev" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
+            <span className="lb-arrow-icon prev-icon"><Arrow /></span>
+            <span className="lb-arrow-label">Prev</span>
+          </button>
+          <button className="lightbox-arrow next" data-cursor="Next" onClick={() => onNav(1)} aria-label="Next">
+            <span className="lb-arrow-label">Next</span>
+            <span className="lb-arrow-icon"><Arrow /></span>
+          </button>
         </div>
 
         <div className="lightbox-meta">

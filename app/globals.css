@@ -438,9 +438,41 @@ button{font-family:inherit;color:inherit}
 .lightbox-meta .row .v{color:var(--fg);text-align:right}
 .lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border:1px solid var(--border-strong);background:rgba(10,10,10,.6);color:var(--fg);border-radius:50%;cursor:none;z-index:10;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
 .lightbox-close:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
-.lightbox-arrows{position:absolute;top:50%;width:100%;display:flex;justify-content:space-between;padding:0 16px;z-index:5;transform:translateY(-50%);pointer-events:none}
-.lightbox-arrow{pointer-events:auto;width:56px;height:56px;border-radius:50%;background:rgba(10,10,10,.6);border:1px solid var(--border-strong);color:var(--fg);cursor:none;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px);transition:all var(--dur-fast)}
-.lightbox-arrow:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+/* Netflix-style edge arrows (desktop, overlaid on player) */
+.lightbox-arrows{position:absolute;inset:0;display:flex;justify-content:space-between;z-index:5;pointer-events:none}
+.lightbox-arrow{pointer-events:auto;flex:0 0 14%;height:100%;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(to right,rgba(0,0,0,.6),rgba(0,0,0,0));border:none;border-radius:0;color:var(--fg);opacity:.55;cursor:none;transition:opacity var(--dur-fast),background var(--dur-fast)}
+.lightbox-arrow.next{background:linear-gradient(to left,rgba(0,0,0,.6),rgba(0,0,0,0))}
+.lightbox-arrow:hover{opacity:1}
+.lightbox-arrow .lb-arrow-icon{display:flex;align-items:center;justify-content:center;transition:transform var(--dur-fast) var(--ease-cinematic)}
+.lightbox-arrow .lb-arrow-icon svg{width:38px;height:38px}
+.lightbox-arrow .prev-icon{transform:rotate(180deg)}
+.lightbox-arrow.next:hover .lb-arrow-icon{transform:scale(1.2) translateX(4px)}
+.lightbox-arrow.prev:hover .lb-arrow-icon{transform:rotate(180deg) scale(1.2) translateX(4px)}
+.lb-arrow-label{display:none}
+
+/* Loading overlay (between prev/next while iframe loads) */
+.lb-loading{position:absolute;inset:0;z-index:6;display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);opacity:1;transition:opacity var(--dur-slow) var(--ease-cinematic)}
+.lb-loading.hidden{opacity:0;pointer-events:none}
+.lb-loading .ap-bars{display:flex;align-items:flex-end;gap:4px;height:28px;color:var(--fg)}
+.lb-loading .ap-bars span{display:block;width:4px;height:8px;background:currentColor;border-radius:2px;transform-origin:bottom;animation:ap-bar .9s ease-in-out infinite}
+.lb-loading .ap-bars span:nth-child(2){animation-delay:.15s}
+.lb-loading .ap-bars span:nth-child(3){animation-delay:.3s}
+.lb-loading .ap-bars span:nth-child(4){animation-delay:.15s}
+.lb-loading-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted)}
+
+/* Mobile arrows: row below the player */
+.lightbox-arrows-mobile{display:none}
+@media (max-width:900px){
+  .lightbox-arrows{display:none}
+  .lightbox-arrows-mobile{display:flex;gap:12px;padding:14px 16px;background:var(--bg-elevated);border-top:1px solid var(--border)}
+  .lightbox-arrows-mobile .lightbox-arrow{flex:1;height:auto;padding:14px 18px;border:1px solid var(--border-strong);border-radius:999px;background:var(--bg-card);opacity:1;gap:10px;font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg)}
+  .lightbox-arrows-mobile .lightbox-arrow.next{background:var(--bg-card)}
+  .lightbox-arrows-mobile .lb-arrow-icon svg{width:16px;height:16px}
+  .lightbox-arrows-mobile .lb-arrow-label{display:inline}
+  .lightbox-arrows-mobile .lightbox-arrow:hover .lb-arrow-icon,
+  .lightbox-arrows-mobile .lightbox-arrow.prev:hover .lb-arrow-icon{transform:none}
+  .lightbox-arrows-mobile .lightbox-arrow.prev:hover .lb-arrow-icon{transform:rotate(180deg)}
+}
 .lightbox-next{position:absolute;bottom:-1px;left:0;right:0;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-top:1px solid var(--border);font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted)}
 .lightbox-next .name{color:var(--fg);cursor:pointer}
 

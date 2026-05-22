@@ -42,7 +42,7 @@ export default function ClientShell({ videos }) {
   return (
     <>
       <CustomCursor />
-      <AudioPlayer />
+      <AudioPlayer paused={!!lightbox} />
       <div className="grain" />
       <div className="vignette" />
 
