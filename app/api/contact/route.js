@@ -44,7 +44,7 @@ export async function POST(request) {
 
   const resend = new Resend(apiKey);
 
-  const from = 'hello@shubhamfilmproductions.com';
+  const from = 'Shubham Film <onboarding@resend.dev>';
   const to = process.env.CONTACT_INBOX_EMAIL || 'hello@shubhamfilmproductions.com';
 
   const submittedAt = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
