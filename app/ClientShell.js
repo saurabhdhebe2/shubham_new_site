@@ -12,6 +12,7 @@ import Footer from '@/components/Footer';
 import Lightbox from '@/components/Lightbox';
 import Drawer from '@/components/Drawer';
 import CustomCursor from '@/components/CustomCursor';
+import AudioPlayer from '@/components/AudioPlayer';
 
 export default function ClientShell({ videos }) {
   const [contactOpen, setContactOpen] = useState(false);
@@ -41,6 +42,7 @@ export default function ClientShell({ videos }) {
   return (
     <>
       <CustomCursor />
+      <AudioPlayer />
       <div className="grain" />
       <div className="vignette" />
 
