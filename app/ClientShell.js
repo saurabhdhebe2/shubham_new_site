@@ -13,6 +13,8 @@ import Lightbox from '@/components/Lightbox';
 import Drawer from '@/components/Drawer';
 import CustomCursor from '@/components/CustomCursor';
 import AudioPlayer from '@/components/AudioPlayer';
+import Timecode from '@/components/Timecode';
+import FilmLeader from '@/components/FilmLeader';
 
 export default function ClientShell({ videos }) {
   const [contactOpen, setContactOpen] = useState(false);
@@ -41,8 +43,10 @@ export default function ClientShell({ videos }) {
 
   return (
     <>
+      <FilmLeader />
       <CustomCursor />
       <AudioPlayer paused={!!lightbox} />
+      <Timecode />
       <div className="grain" />
       <div className="vignette" />
 

@@ -1,11 +1,104 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Play, Arrow } from './Icons';
 import StillPoster from './StillPoster';
 import { YOUTUBE_CHANNEL, CATEGORIES } from '@/lib/data';
 
 const CATS = CATEGORIES;
+
+function extractYoutubeId(p) {
+  if (p.youtubeId) return p.youtubeId;
+  if (typeof p.thumbnail === 'string') {
+    const m = p.thumbnail.match(/\/vi\/([A-Za-z0-9_-]{6,})\//);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+function TileMedia({ project }) {
+  const id = extractYoutubeId(project);
+  const ref = useRef(null);
+  const [frame, setFrame] = useState(0);
+  const [scrubbing, setScrubbing] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(mq.matches);
+    const onChange = () => setReduceMotion(mq.matches);
+    mq.addEventListener?.('change', onChange);
+    return () => mq.removeEventListener?.('change', onChange);
+  }, []);
+
+  const onMove = (e) => {
+    if (!id || reduceMotion) return;
+    if (!loaded) setLoaded(true);
+    if (!scrubbing) setScrubbing(true);
+    const rect = ref.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const idx = Math.max(0, Math.min(3, Math.floor((x / rect.width) * 4)));
+    setFrame(idx);
+  };
+
+  const onLeave = () => {
+    setScrubbing(false);
+    setFrame(0);
+  };
+
+  const onTouch = () => {
+    if (!id || reduceMotion) return;
+    if (!loaded) setLoaded(true);
+    setScrubbing(true);
+    setFrame((f) => (f + 1) % 4);
+  };
+
+  return (
+    <div
+      ref={ref}
+      className="tile-media"
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      onTouchStart={onTouch}
+    >
+      {project.thumbnail ? (
+        <Image
+          src={project.thumbnail}
+          alt={project.title}
+          fill
+          className="tile-img"
+          sizes="(max-width:600px) 100vw, (max-width:1100px) 50vw, 33vw"
+        />
+      ) : (
+        <>
+          <div className={'tile-img ' + (project.still || 'still-1')} />
+          <StillPoster project={project} />
+        </>
+      )}
+
+      {id && loaded && [1, 2, 3].map((n) => (
+        <img
+          key={n}
+          src={`https://i.ytimg.com/vi/${id}/${n}.jpg`}
+          alt=""
+          aria-hidden="true"
+          className={'tile-frame' + (frame === n ? ' on' : '')}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+
+      {id && !reduceMotion && (
+        <div className={'tile-scrub' + (scrubbing ? ' on' : '')} aria-hidden="true">
+          {[0, 1, 2, 3].map((n) => (
+            <span key={n} className={'seg' + (frame === n ? ' active' : '')} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function Portfolio({ videos, onOpen }) {
   const [cat, setCat] = useState('All');
@@ -58,20 +151,7 @@ export default function Portfolio({ videos, onOpen }) {
             data-cursor="Play"
             onClick={() => onOpen(p)}
           >
-            {p.thumbnail ? (
-              <Image
-                src={p.thumbnail}
-                alt={p.title}
-                fill
-                className="tile-img"
-                sizes="(max-width:600px) 100vw, (max-width:1100px) 50vw, 33vw"
-              />
-            ) : (
-              <>
-                <div className={'tile-img ' + (p.still || 'still-1')} />
-                <StillPoster project={p} />
-              </>
-            )}
+            <TileMedia project={p} />
             <div className="tile-overlay" />
             <div className="tile-meta">
               <span className="tile-client">{p.client || p.cat}</span>

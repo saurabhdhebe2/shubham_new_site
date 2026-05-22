@@ -217,8 +217,42 @@ button{font-family:inherit;color:inherit}
   .tile.tall{grid-column:span 6;aspect-ratio:9/16}
 }
 
+.tile-media{position:absolute;inset:0;z-index:1}
 .tile-img{position:absolute;inset:0;transition:transform var(--dur-slow) var(--ease-cinematic);object-fit:cover;width:100%;height:100%}
 .tile:hover .tile-img{transform:scale(1.04)}
+.tile-frame{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 80ms linear;pointer-events:none}
+.tile-frame.on{opacity:1}
+.tile-scrub{position:absolute;left:12px;right:12px;bottom:10px;display:flex;gap:4px;z-index:4;opacity:0;transition:opacity var(--dur-fast) var(--ease-cinematic);pointer-events:none}
+.tile-scrub.on{opacity:.9}
+.tile-scrub .seg{flex:1;height:2px;background:rgba(245,241,234,.18)}
+.tile-scrub .seg.active{background:var(--accent-hot)}
+
+/* Timecode scroll readout */
+.timecode{position:fixed;left:24px;bottom:20px;z-index:60;display:flex;align-items:center;gap:8px;font:500 10px/1 var(--font-mono);letter-spacing:.16em;color:var(--fg-muted);opacity:0;transition:opacity var(--dur-slow) var(--ease-cinematic);pointer-events:none;mix-blend-mode:difference}
+.timecode.on{opacity:.55}
+.timecode .tc-dot{width:5px;height:5px;border-radius:50%;background:var(--accent-hot);box-shadow:0 0 8px var(--accent-hot)}
+.timecode .tc-now{color:var(--fg)}
+.timecode .tc-sep{opacity:.5}
+@media (max-width:600px){ .timecode{display:none} }
+
+/* Film leader countdown */
+.film-leader{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;opacity:1;transition:opacity 220ms linear}
+.film-leader.out{opacity:0}
+.film-leader::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at center, transparent 0%, rgba(0,0,0,.5) 80%);pointer-events:none}
+.film-leader::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(255,255,255,.015) 2px, rgba(255,255,255,.015) 3px);pointer-events:none;animation:leader-flicker .9s steps(2) infinite}
+@keyframes leader-flicker{0%,100%{opacity:.6}50%{opacity:1}}
+.leader-stage{position:relative;width:min(56vmin, 420px);aspect-ratio:1/1;display:flex;align-items:center;justify-content:center}
+.leader-ring{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.leader-ring-bg{fill:none;stroke:rgba(245,241,234,.12);stroke-width:.6}
+.leader-ring-sweep{fill:none;stroke:rgba(245,241,234,.85);stroke-width:.8;stroke-dasharray:289;stroke-dashoffset:289;animation:leader-sweep 700ms linear forwards}
+@keyframes leader-sweep{from{stroke-dashoffset:289}to{stroke-dashoffset:0}}
+.leader-cross{stroke:rgba(245,241,234,.25);stroke-width:.4}
+.leader-num{position:relative;font-family:var(--font-display);font-size:clamp(120px, 22vmin, 220px);line-height:1;color:#F5F1EA;letter-spacing:-.02em;animation:leader-pop 700ms var(--ease-cinematic) forwards}
+@keyframes leader-pop{0%{opacity:0;transform:scale(.94)}20%{opacity:1;transform:scale(1)}100%{opacity:.95;transform:scale(1.02)}}
+.leader-meta{position:absolute;top:32px;left:32px;display:flex;flex-direction:column;gap:6px;font:500 10px/1 var(--font-mono);letter-spacing:.22em;color:rgba(245,241,234,.5);text-transform:uppercase}
+.leader-skip{position:absolute;bottom:32px;right:32px;background:transparent;border:1px solid rgba(245,241,234,.2);color:rgba(245,241,234,.6);font:500 10px/1 var(--font-mono);letter-spacing:.22em;padding:10px 16px;cursor:pointer;text-transform:uppercase;transition:all 180ms}
+.leader-skip:hover{color:#F5F1EA;border-color:rgba(245,241,234,.5)}
+@media (max-width:600px){ .leader-meta, .leader-skip{font-size:9px;padding:8px 12px} }
 .tile-overlay{position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,10,10,.4) 0%, transparent 30%, transparent 50%, rgba(10,10,10,.9) 100%);z-index:2}
 .tile-meta{position:absolute;top:20px;left:20px;right:20px;display:flex;justify-content:space-between;z-index:3;align-items:flex-start}
 .tile-client{font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg);opacity:.85;background:rgba(10,10,10,.5);padding:6px 10px;backdrop-filter:blur(8px)}
