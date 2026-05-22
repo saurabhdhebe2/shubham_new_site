@@ -97,11 +97,13 @@ button{font-family:inherit;color:inherit}
 .hero-reel{position:absolute;inset:0;background:#000;overflow:hidden}
 /* YouTube iframe scaled up aggressively to push YT title bar + bottom control
    bar off-screen, so only the video frame is visible. */
-.hero-bg-video{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.78vh;min-height:100%;transform:translate(-50%,-50%) scale(1.7);transform-origin:center;border:0;pointer-events:none}
-@media (max-width:900px){ .hero-bg-video{transform:translate(-50%,-50%) scale(2.2)} }
-/* Click-blocking overlay on top of the iframe so any YT control affordances
-   (hover-revealed UI, "watch later", etc.) can never be triggered. */
-.hero-reel::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:auto;background:transparent}
+.hero-bg-video{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.78vh;min-height:100%;transform:translate(-50%,-50%) scale(1.9);transform-origin:center;border:0;pointer-events:none}
+@media (max-width:900px){ .hero-bg-video{transform:translate(-50%,-50%) scale(2.6)} }
+@media (max-width:600px){ .hero-bg-video{transform:translate(-50%,-50%) scale(3.4)} }
+/* Top + bottom mask bars that hide any YT chrome that survives the scale-crop
+   (title overlay, "watch on YouTube", paused-state replay button, etc.). */
+.hero-reel::before{content:'';position:absolute;left:0;right:0;top:0;height:96px;background:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);z-index:2;pointer-events:none}
+.hero-reel::after{content:'';position:absolute;left:0;right:0;bottom:0;top:auto;height:120px;background:linear-gradient(0deg,#000 0%,#000 45%,transparent 100%);z-index:2;pointer-events:none}
 .hero-bg-overlay{position:absolute;inset:0;background:
   radial-gradient(circle at 50% 50%, rgba(10,10,10,.45), rgba(5,5,5,.85) 80%),
   linear-gradient(180deg, rgba(10,10,10,.5) 0%, transparent 30%, transparent 50%, rgba(10,10,10,.9) 100%);
@@ -390,13 +392,22 @@ button{font-family:inherit;color:inherit}
 .chip:hover{color:var(--fg);border-color:var(--fg-muted)}
 .chip.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 .chip-label{font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);margin-bottom:10px;display:block}
-.send-btn{width:100%;height:64px;background:var(--accent);color:var(--bg);border:none;font:500 12px/1 var(--font-mono);letter-spacing:.24em;text-transform:uppercase;cursor:none;display:flex;align-items:center;justify-content:center;gap:14px;transition:background var(--dur-fast), color var(--dur-fast);position:relative;overflow:hidden;border-radius:6px}
-.send-btn:hover{background:var(--accent-hot);color:var(--fg)}
-.send-btn:disabled{opacity:.85;cursor:not-allowed}
+.send-btn{width:100%;min-height:56px;padding:16px 24px;background:var(--accent);color:var(--bg);border:none;border-radius:6px;font:500 12px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;cursor:none;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;overflow:hidden;transition:background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast), box-shadow var(--dur-fast);-webkit-tap-highlight-color:transparent}
+.send-btn:hover{background:var(--accent-hot);color:var(--fg);box-shadow:0 8px 24px -8px rgba(255,77,46,.6)}
+.send-btn:active{transform:translateY(1px) scale(.995)}
+.send-btn:focus-visible{outline:2px solid var(--accent-hot);outline-offset:3px}
+.send-btn:disabled{opacity:.7;cursor:not-allowed;transform:none;box-shadow:none}
 .send-btn.loading{background:var(--bg-card);color:var(--accent);border:1px solid var(--border-strong)}
 .send-btn.error{background:transparent;color:var(--accent-hot);border:1px solid var(--accent-hot)}
 .send-btn.error:hover{background:var(--accent-hot);color:var(--fg)}
-.send-spinner{width:18px;height:18px;border:1.5px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite}
+.send-btn svg{flex-shrink:0}
+.send-btn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:900px){ .send-btn{min-height:54px;font-size:11.5px;letter-spacing:.2em;padding:14px 20px;gap:10px} }
+@media (max-width:600px){
+  .send-btn{min-height:52px;font-size:11px;letter-spacing:.16em;padding:14px 18px;gap:8px;border-radius:8px;cursor:pointer}
+  .send-btn:hover{box-shadow:none}
+}
+.send-spinner{width:18px;height:18px;border:1.5px solid var(--border-strong);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* Toast */

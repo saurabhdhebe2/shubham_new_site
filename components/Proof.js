@@ -3,8 +3,8 @@ import CountUp from './CountUp';
 import { CLIENTS } from '@/lib/data';
 
 const STATS = [
-  { num: 8, suf: '', label: 'USA Brands', flag: 'USA' },
-  { num: 4, suf: '', label: 'UK Brands', flag: 'UK' },
+  { num: 25, suf: '',  label: 'Overseas Brands', flag: 'GLOBAL' },
+  { num: 50, suf: '+', label: 'Indian Brands',   flag: 'INDIA'  },
   { num: 1.5, suf: 'B+', label: 'Views Delivered', flag: 'REACH' },
   { num: 2, suf: 'K+', label: 'Videos Shipped', flag: 'OUTPUT' },
 ];

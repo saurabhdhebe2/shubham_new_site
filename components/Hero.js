@@ -11,7 +11,7 @@ export default function Hero({ onContact, onScrollTo }) {
       <div className="hero-reel">
         <iframe
           className="hero-bg-video"
-          src={`https://www.youtube.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO_ID}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3`}
+          src={`https://www.youtube.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO_ID}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0`}
           title="Showreel"
           allow="autoplay; encrypted-media; picture-in-picture"
           allowFullScreen={false}
@@ -27,7 +27,7 @@ export default function Hero({ onContact, onScrollTo }) {
       <div className="hero-content">
         <div className="hero-eyebrow">
           <span className="line" />
-          <span className="eyebrow">Est. 4 · Mumbai</span>
+          <span className="eyebrow">Est. 2017 · Mumbai</span>
         </div>
         <h1 className="hero-headline">
           Shubham<br />

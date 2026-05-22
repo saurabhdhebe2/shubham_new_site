@@ -10,6 +10,15 @@ const CATS = CATEGORIES;
 export default function Portfolio({ videos, onOpen }) {
   const [cat, setCat] = useState('All');
 
+  const pickCat = (c) => {
+    setCat(c);
+    const el = document.getElementById('work');
+    if (el) {
+      const y = el.getBoundingClientRect().top + window.scrollY - 40;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   const filtered = cat === 'All' ? videos : videos.filter(v => {
     const vc = (v.cat || '').toLowerCase();
     const cc = cat.toLowerCase();
@@ -32,7 +41,7 @@ export default function Portfolio({ videos, onOpen }) {
               key={c}
               className={'filter-tab' + (cat === c ? ' active' : '')}
               data-cursor="Filter"
-              onClick={() => setCat(c)}
+              onClick={() => pickCat(c)}
             >
               {cat === c && <span className="pill" />}
               <span style={{ position: 'relative' }}>{c}</span>
