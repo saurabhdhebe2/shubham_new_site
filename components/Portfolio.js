@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { Play, Arrow } from './Icons';
 import StillPoster from './StillPoster';
-import { YOUTUBE_CHANNEL, CATEGORIES } from '@/lib/data';
+import { YOUTUBE_CHANNEL, CATEGORIES, COMMENTARY } from '@/lib/data';
 
 const CATS = CATEGORIES;
 
@@ -23,6 +23,9 @@ function TileMedia({ project }) {
   const [scrubbing, setScrubbing] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [showNote, setShowNote] = useState(false);
+  const noteTimerRef = useRef(null);
+  const note = project.note || COMMENTARY[project.id];
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -35,7 +38,13 @@ function TileMedia({ project }) {
   const onMove = (e) => {
     if (!id || reduceMotion) return;
     if (!loaded) setLoaded(true);
-    if (!scrubbing) setScrubbing(true);
+    if (!scrubbing) {
+      setScrubbing(true);
+      if (note) {
+        clearTimeout(noteTimerRef.current);
+        noteTimerRef.current = setTimeout(() => setShowNote(true), 800);
+      }
+    }
     const rect = ref.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const idx = Math.max(0, Math.min(3, Math.floor((x / rect.width) * 4)));
@@ -45,6 +54,8 @@ function TileMedia({ project }) {
   const onLeave = () => {
     setScrubbing(false);
     setFrame(0);
+    setShowNote(false);
+    clearTimeout(noteTimerRef.current);
   };
 
   const onTouch = () => {
@@ -94,6 +105,13 @@ function TileMedia({ project }) {
           {[0, 1, 2, 3].map((n) => (
             <span key={n} className={'seg' + (frame === n ? ' active' : '')} />
           ))}
+        </div>
+      )}
+
+      {note && (
+        <div className={'tile-commentary' + (showNote ? ' on' : '')} aria-hidden="true">
+          <span className="tc-eyebrow">— Director</span>
+          <span className="tc-text">{note}</span>
         </div>
       )}
     </div>
@@ -149,7 +167,7 @@ export default function Portfolio({ videos, onOpen }) {
             key={p.id || p.youtubeId || i}
             className={'tile ' + (p.size || 'third')}
             data-cursor="Play"
-            onClick={() => onOpen(p)}
+            onClick={(e) => onOpen(p, e)}
           >
             <TileMedia project={p} />
             <div className="tile-overlay" />

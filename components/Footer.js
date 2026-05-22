@@ -2,7 +2,8 @@
 import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import MumbaiClock from './MumbaiClock';
-import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from '@/lib/data';
+import EndCredits from './EndCredits';
+import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS, SHOT_ON } from '@/lib/data';
 
 const SITEMAP = ['work', 'services', 'process', 'about', 'contact'];
 const ELSEWHERE = [
@@ -78,6 +79,18 @@ export default function Footer({ onContact }) {
           </ul>
         </div>
       </div>
+      <div className="shot-on">
+        {SHOT_ON.map(([k, v], i) => (
+          <span key={i} className="shot-on-row">
+            <span className="so-k">{k}</span>
+            <span className="so-sep">·</span>
+            <span className="so-v">{v}</span>
+          </span>
+        ))}
+      </div>
+
+      <EndCredits />
+
       <div className="footer-bar">
         <span>© 2026 Shubham Film Productions · Mumbai · All rights reserved</span>
         <span className="footer-status">

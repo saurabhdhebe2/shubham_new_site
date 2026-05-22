@@ -15,10 +15,12 @@ import CustomCursor from '@/components/CustomCursor';
 import AudioPlayer from '@/components/AudioPlayer';
 import Timecode from '@/components/Timecode';
 import FilmLeader from '@/components/FilmLeader';
+import SceneHeading from '@/components/SceneHeading';
 
 export default function ClientShell({ videos }) {
   const [contactOpen, setContactOpen] = useState(false);
   const [lightbox, setLightbox] = useState(null);
+  const [origin, setOrigin] = useState(null);
   const [toast, setToast] = useState(null);
 
   const scrollTo = (id) => {
@@ -29,12 +31,20 @@ export default function ClientShell({ videos }) {
     }
   };
 
-  const openLightbox = (p) => setLightbox(p);
+  const openLightbox = (p, ev) => {
+    if (ev && typeof ev.clientX === 'number') {
+      setOrigin({ x: ev.clientX, y: ev.clientY });
+    } else {
+      setOrigin({ x: window.innerWidth / 2, y: window.innerHeight / 2 });
+    }
+    setLightbox(p);
+  };
   const closeLightbox = () => setLightbox(null);
   const navLightbox = (dir) => {
     const idx = videos.findIndex(v => (v.id || v.youtubeId) === (lightbox.id || lightbox.youtubeId));
     setLightbox(videos[(idx + dir + videos.length) % videos.length]);
   };
+  const jumpLightbox = (project) => setLightbox(project);
 
   const showToast = (msg) => {
     setToast(msg);
@@ -47,6 +57,7 @@ export default function ClientShell({ videos }) {
       <CustomCursor />
       <AudioPlayer paused={!!lightbox} />
       <Timecode />
+      <SceneHeading />
       <div className="grain" />
       <div className="vignette" />
 
@@ -60,7 +71,7 @@ export default function ClientShell({ videos }) {
       <CTA onContact={() => setContactOpen(true)} onToast={showToast} />
       <Footer onContact={() => setContactOpen(true)} />
 
-      <Lightbox project={lightbox} videos={videos} onClose={closeLightbox} onNav={navLightbox} />
+      <Lightbox project={lightbox} videos={videos} origin={origin} onClose={closeLightbox} onNav={navLightbox} onJump={jumpLightbox} />
       <Drawer open={contactOpen} onClose={() => setContactOpen(false)} />
 
       <div className={'toast' + (toast ? ' show' : '')}>

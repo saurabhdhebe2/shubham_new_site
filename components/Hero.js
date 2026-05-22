@@ -1,13 +1,40 @@
 'use client';
+import { useEffect, useRef } from 'react';
 import { Arrow, Play } from './Icons';
+import Slate from './Slate';
 
 // Env-configurable hero background video.
 // Set NEXT_PUBLIC_HERO_VIDEO_ID in .env.local (YouTube video ID, e.g. djC_8Xwzh2o)
 const HERO_VIDEO_ID = process.env.NEXT_PUBLIC_HERO_VIDEO_ID || 'djC_8Xwzh2o';
 
 export default function Hero({ onContact, onScrollTo }) {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let pending = false;
+    const compute = () => {
+      pending = false;
+      const y = window.scrollY;
+      const h = window.innerHeight;
+      const p = Math.max(0, Math.min(1, y / h));
+      el.style.setProperty('--dolly', p.toFixed(3));
+    };
+    const onScroll = () => {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(compute);
+    };
+    compute();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <section id="top" className="hero">
+    <section id="top" className="hero" ref={sectionRef}>
       <div className="hero-reel">
         <iframe
           className="hero-bg-video"
@@ -23,6 +50,8 @@ export default function Hero({ onContact, onScrollTo }) {
       <div className="hero-tr">
         <span className="mono" style={{ fontSize: 10 }}>SHOWREEL · 2026</span>
       </div>
+
+      <Slate />
 
       <div className="hero-content">
         <div className="hero-eyebrow">

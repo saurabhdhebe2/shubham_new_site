@@ -1,10 +1,22 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Arrow, Cross, Play, Pause, Speaker } from './Icons';
 import StillPoster from './StillPoster';
 
-export default function Lightbox({ project, videos, onClose, onNav }) {
+function extractYoutubeId(p) {
+  if (!p) return null;
+  if (p.youtubeId) return p.youtubeId;
+  if (typeof p.thumbnail === 'string') {
+    const m = p.thumbnail.match(/\/vi\/([A-Za-z0-9_-]{6,})\//);
+    if (m) return m[1];
+  }
+  return null;
+}
+
+export default function Lightbox({ project, videos, origin, onClose, onNav, onJump }) {
   const [loading, setLoading] = useState(true);
+  const [iris, setIris] = useState(false);
+  const stripRef = useRef(null);
 
   useEffect(() => {
     if (!project) return;
@@ -25,14 +37,37 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
     if (project?.youtubeId) setLoading(true);
   }, [project?.id, project?.youtubeId]);
 
+  // Iris open animation: only on first mount per open
+  useEffect(() => {
+    if (!project) {
+      setIris(false);
+      return;
+    }
+    requestAnimationFrame(() => requestAnimationFrame(() => setIris(true)));
+  }, [project?.id]);
+
+  // Keep current strip frame in view when project changes
+  useEffect(() => {
+    if (!project || !stripRef.current) return;
+    const el = stripRef.current.querySelector('.strip-frame.on');
+    if (el && el.scrollIntoView) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+  }, [project?.id]);
+
   if (!project) return null;
 
   const idx = videos.findIndex(v => (v.id || v.youtubeId) === (project.id || project.youtubeId));
   const next = videos[(idx + 1) % videos.length];
 
+  const irisStyle = origin
+    ? { '--iris-x': `${origin.x}px`, '--iris-y': `${origin.y}px` }
+    : { '--iris-x': '50vw', '--iris-y': '50vh' };
+
   return (
     <div
-      className="lightbox open"
+      className={'lightbox open' + (iris ? ' iris-open' : '')}
+      style={irisStyle}
       onClick={(e) => { if (e.target.classList.contains('lightbox')) onClose(); }}
     >
       <button className="lightbox-close" data-cursor="Close" onClick={onClose} aria-label="Close">
@@ -81,6 +116,8 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
               <span className="lb-arrow-icon"><Arrow /></span>
             </button>
           </div>
+          <div className="lb-letterbox lb-letterbox-top" aria-hidden="true" />
+          <div className="lb-letterbox lb-letterbox-bot" aria-hidden="true" />
         </div>
 
         <div className="lightbox-meta">
@@ -138,6 +175,33 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
             </span>
           </div>
         )}
+
+        <div className="lightbox-strip" ref={stripRef} aria-label="Filmstrip navigator">
+          <span className="strip-label">REEL · {String(idx + 1).padStart(2, '0')} / {String(videos.length).padStart(2, '0')}</span>
+          <div className="strip-track">
+            {videos.map((v, i) => {
+              const id = extractYoutubeId(v);
+              const thumb = v.thumbnail || (id ? `https://i.ytimg.com/vi/${id}/mqdefault.jpg` : null);
+              const active = i === idx;
+              return (
+                <button
+                  key={v.id || v.youtubeId || i}
+                  className={'strip-frame' + (active ? ' on' : '')}
+                  data-cursor={active ? 'Now' : 'Jump'}
+                  onClick={() => !active && onJump(v)}
+                  aria-label={`${v.title} (${i + 1} of ${videos.length})`}
+                >
+                  {thumb ? (
+                    <span className="strip-thumb" style={{ backgroundImage: `url(${thumb})` }} />
+                  ) : (
+                    <span className={'strip-thumb ' + (v.still || 'still-1')} />
+                  )}
+                  <span className="strip-num">{String(i + 1).padStart(2, '0')}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         <div className="lightbox-arrows-mobile">
           <button className="lightbox-arrow prev" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
