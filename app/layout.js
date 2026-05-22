@@ -1,4 +1,6 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const SITE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://shubhamfilmproductions.com";
 
@@ -49,6 +51,7 @@ export const metadata = {
   category: "Film & Video Production",
   alternates: {
     canonical: SITE_URL,
+    languages: { 'en-IN': SITE_URL, 'x-default': SITE_URL },
   },
   openGraph: {
     type: "website",
@@ -58,6 +61,8 @@ export const metadata = {
     description:
       "Independent film and post-production by Shubham Dhebe - director, cinematographer, and editor. Brand films, commercials, music films, documentaries, podcasts, and reels.",
     locale: "en_IN",
+    // NOTE: /og.jpg and /apple-icon.png must be added to public/ — currently missing.
+    // Recommended: 1200×630 jpg for og, 180×180 png for apple-icon.
     images: [
       {
         url: "/og.jpg",
@@ -157,6 +162,30 @@ const JSON_LD_ORG = {
   ],
 };
 
+const JSON_LD_SERVICE = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Shubham Film Productions",
+  image: `${SITE_URL}/og.jpg`,
+  url: SITE_URL,
+  telephone: "+91-7738616434",
+  email: "hello@shubhamfilmproductions.com",
+  priceRange: "₹₹",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Mumbai",
+    addressRegion: "Maharashtra",
+    addressCountry: "IN",
+  },
+  areaServed: ["IN", "Mumbai", "India", "Global"],
+  serviceType: [
+    "Direction",
+    "Cinematography",
+    "Editing",
+    "End-to-end video production",
+  ],
+};
+
 const JSON_LD_WEBSITE = {
   "@context": "https://schema.org",
   "@type": "WebSite",
@@ -168,7 +197,7 @@ const JSON_LD_WEBSITE = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en-IN">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -190,8 +219,16 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_WEBSITE) }}
         />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD_SERVICE) }}
+        />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

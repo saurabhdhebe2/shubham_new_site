@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Logo from './Logo';
 import MumbaiClock from './MumbaiClock';
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS } from '@/lib/data';
@@ -15,7 +15,14 @@ const ELSEWHERE = [
 
 export default function Footer({ onContact }) {
   const [showStatus, setShowStatus] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState('');
   const telHref = 'tel:' + CONTACT_PHONE.replace(/\s+/g, '');
+
+  useEffect(() => {
+    const names = ['January','February','March','April','May','June',
+                   'July','August','September','October','November','December'];
+    setCurrentMonth(names[new Date().getMonth()]);
+  }, []);
 
   return (
     <footer id="journal" className="footer">
@@ -74,7 +81,7 @@ export default function Footer({ onContact }) {
       <div className="footer-bar">
         <span>© 2026 Shubham Film Productions · Mumbai · All rights reserved</span>
         <span className="footer-status">
-          <span className="dot" />Currently open for August bookings
+          <span className="dot" />{currentMonth ? `Currently open for ${currentMonth} onwards bookings` : 'Currently open for bookings'}
         </span>
       </div>
     </footer>
