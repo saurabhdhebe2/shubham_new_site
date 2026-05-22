@@ -43,12 +43,10 @@ button{font-family:inherit;color:inherit}
   background:radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.5) 100%)}
 
 /* Custom cursor */
-.cursor-dot, .cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
-.cursor-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);
-  transform:translate(-50%,-50%);transition:width var(--dur-fast) var(--ease-cinematic), height var(--dur-fast) var(--ease-cinematic), opacity var(--dur-fast)}
-.cursor-ring{width:48px;height:48px;border-radius:50%;border:1px solid var(--accent);
-  transform:translate(-50%,-50%) scale(0);transition:transform var(--dur-fast) var(--ease-cinematic), opacity var(--dur-fast);
-  display:flex;align-items:center;justify-content:center;font:500 10px/1 var(--font-mono);letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
+.cursor-dot, .cursor-ring{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference;opacity:0;transition:opacity var(--dur-fast)}
+.cursor-dot.ready, .cursor-ring.ready{opacity:1}
+.cursor-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%)}
+.cursor-ring{width:48px;height:48px;border-radius:50%;border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font:500 10px/1 var(--font-mono);letter-spacing:.18em;color:var(--accent);text-transform:uppercase}
 @media (max-width:900px){ .cursor-dot, .cursor-ring{display:none} }
 
 /* Type */
