@@ -507,8 +507,19 @@ button{font-family:inherit;color:inherit}
   .lightbox-arrows-mobile .lightbox-arrow.prev:hover .lb-arrow-icon{transform:none}
   .lightbox-arrows-mobile .lightbox-arrow.prev:hover .lb-arrow-icon{transform:rotate(180deg)}
 }
-.lightbox-next{position:absolute;bottom:-1px;left:0;right:0;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-top:1px solid var(--border);font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted)}
+.lightbox-next{position:absolute;bottom:-1px;left:0;right:0;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-top:1px solid var(--border);font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted);cursor:none}
 .lightbox-next .name{color:var(--fg);cursor:pointer}
+.lightbox-next-thumb{display:none}
+.lightbox-next-text{display:contents}
+@media (max-width:1100px){
+  .lightbox-next{position:static;padding:14px 16px;gap:14px;justify-content:flex-start;background:var(--bg-elevated);text-transform:none;letter-spacing:0;font:inherit;color:var(--fg)}
+  .lightbox-next-thumb{display:block;flex:0 0 96px;width:96px;aspect-ratio:16/9;background-size:cover;background-position:center;background-color:#000;position:relative;border:1px solid var(--border)}
+  .lightbox-next-thumb::after{content:"";position:absolute;top:50%;left:50%;width:22px;height:22px;border-radius:50%;border:1px solid var(--accent);transform:translate(-50%,-50%);background:rgba(10,10,10,.45);backdrop-filter:blur(4px)}
+  .lightbox-next-text{display:flex;flex-direction:column;gap:6px;min-width:0;flex:1}
+  .lightbox-next .label{font:500 10px/1 var(--font-mono);letter-spacing:.22em;text-transform:uppercase;color:var(--fg-muted)}
+  .lightbox-next .name{font-family:var(--font-display);font-size:18px;line-height:1.25;letter-spacing:-.01em;color:var(--fg);white-space:normal;overflow-wrap:anywhere}
+  .lb-youtube-btn{width:100%;justify-content:center;margin-top:4px}
+}
 
 /* Mobile nav overlay */
 .mob-toggle{display:none;width:44px;height:44px;background:transparent;border:1px solid var(--border-strong);border-radius:50%;color:var(--fg);align-items:center;justify-content:center;cursor:pointer}

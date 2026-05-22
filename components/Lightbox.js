@@ -83,17 +83,6 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
           </div>
         </div>
 
-        <div className="lightbox-arrows-mobile">
-          <button className="lightbox-arrow prev" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
-            <span className="lb-arrow-icon prev-icon"><Arrow /></span>
-            <span className="lb-arrow-label">Prev</span>
-          </button>
-          <button className="lightbox-arrow next" data-cursor="Next" onClick={() => onNav(1)} aria-label="Next">
-            <span className="lb-arrow-label">Next</span>
-            <span className="lb-arrow-icon"><Arrow /></span>
-          </button>
-        </div>
-
         <div className="lightbox-meta">
           <span className="client">{project.client || project.cat}</span>
           <h3>{project.title}</h3>
@@ -111,8 +100,7 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
           </div>
           {project.youtubeId && (
             <a
-              className="btn btn-ghost"
-              style={{ marginTop: 'auto' }}
+              className="btn btn-ghost lb-youtube-btn"
               data-cursor="Open"
               href={`https://www.youtube.com/watch?v=${project.youtubeId}`}
               target="_blank"
@@ -125,13 +113,42 @@ export default function Lightbox({ project, videos, onClose, onNav }) {
         </div>
 
         {next && (
-          <div className="lightbox-next">
-            <span className="label">Up next</span>
-            <span className="name" data-cursor="Play" onClick={() => onNav(1)}>
-              {next.client ? `${next.client} ` : ''}{next.title} →
+          <div
+            className="lightbox-next"
+            data-cursor="Play"
+            onClick={() => onNav(1)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter') onNav(1); }}
+          >
+            {next.thumbnail ? (
+              <span
+                className="lightbox-next-thumb"
+                style={{ backgroundImage: `url(${next.thumbnail})` }}
+                aria-hidden="true"
+              />
+            ) : (
+              <span className={'lightbox-next-thumb ' + (next.still || 'still-1')} aria-hidden="true" />
+            )}
+            <span className="lightbox-next-text">
+              <span className="label">Up next</span>
+              <span className="name">
+                {next.client ? `${next.client} · ` : ''}{next.title} →
+              </span>
             </span>
           </div>
         )}
+
+        <div className="lightbox-arrows-mobile">
+          <button className="lightbox-arrow prev" data-cursor="Prev" onClick={() => onNav(-1)} aria-label="Previous">
+            <span className="lb-arrow-icon prev-icon"><Arrow /></span>
+            <span className="lb-arrow-label">Prev</span>
+          </button>
+          <button className="lightbox-arrow next" data-cursor="Next" onClick={() => onNav(1)} aria-label="Next">
+            <span className="lb-arrow-label">Next</span>
+            <span className="lb-arrow-icon"><Arrow /></span>
+          </button>
+        </div>
       </div>
     </div>
   );
