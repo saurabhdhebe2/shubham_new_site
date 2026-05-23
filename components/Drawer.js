@@ -4,11 +4,11 @@ import { Arrow, Cross } from './Icons';
 import { CONTACT_EMAIL, CONTACT_PHONE } from '@/lib/data';
 
 const TYPES = ['Reel', 'Documentary', 'Music Film', 'Podcast', 'Commercial', 'Other'];
-const BUDGETS = ['$1-5k', '$5-10k', '$10-25k', '$25-50k', '$50k+', 'Discuss'];
+const BUDGETS = ['<$1k', '$1-3k', '$3-10k', '$10-25k', '$25-50k', '$50k+', 'Discuss'];
 
 export default function Drawer({ open, onClose }) {
   const [type, setType] = useState('Commercial');
-  const [budget, setBudget] = useState('$5-10k');
+  const [budget, setBudget] = useState('$3-10k');
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [errMsg, setErrMsg] = useState('');
   const [form, setForm] = useState({ name: '', email: '', company: '', phone: '', note: '', website: '' });
