@@ -474,12 +474,12 @@ button{font-family:inherit;color:inherit}
 .field input, .field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border-strong);padding:24px 0 10px;color:var(--fg);font-family:inherit;font-size:15px;outline:none;transition:border-color var(--dur-fast);resize:none;display:block}
 .field input:focus, .field textarea:focus{border-bottom-color:var(--accent)}
 /* Textarea has its own visible box so users see where to type */
-.field-textarea{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:6px;padding:10px 18px;transition:border-color var(--dur-fast)}
+.field-textarea{background:var(--bg-card);border:1px solid var(--border-strong);border-radius:6px;padding:14px 18px 10px;transition:border-color var(--dur-fast)}
 .field-textarea:focus-within{border-color:var(--accent)}
-.field-textarea textarea{border-bottom:none;min-height:108px;padding:22px 0 8px;line-height:1.55}
-.field-textarea label{left:18px;top:16px}
+.field-textarea textarea{border-bottom:none;min-height:108px;padding:22px 0 6px;line-height:1.55}
+.field-textarea label{left:18px;top:20px}
 .field-textarea textarea:focus + label,
-.field-textarea textarea:not(:placeholder-shown) + label{top:6px;left:18px}
+.field-textarea textarea:not(:placeholder-shown) + label{top:10px;left:18px}
 
 .chip-group{display:flex;flex-direction:column;gap:10px}
 .form-error{background:rgba(255,77,46,.08);border:1px solid rgba(255,77,46,.4);color:var(--accent-hot);padding:12px 16px;border-radius:6px;font-size:13px;line-height:1.4}
@@ -529,7 +529,7 @@ button{font-family:inherit;color:inherit}
   .lightbox{clip-path:none}
   .lightbox.iris-open{clip-path:none;transition:opacity var(--dur-slow) var(--ease-cinematic)}
 }
-@media (max-width:900px){ .lightbox{padding:0;align-items:flex-start;padding-top:0;clip-path:none} .lightbox.iris-open{clip-path:none;transition:opacity var(--dur-slow) var(--ease-cinematic)} .lightbox-frame{width:100%;max-height:none;border:none;border-radius:0;min-height:100dvh} }
+@media (max-width:900px){ .lightbox{padding:0;align-items:flex-start;padding-top:0;clip-path:none} .lightbox.iris-open{clip-path:none;transition:opacity var(--dur-slow) var(--ease-cinematic)} .lightbox-frame{width:100%;max-height:none;border:none;border-radius:0;min-height:100dvh;will-change:transform} .lightbox.snap-back .lightbox-frame{transition:transform 220ms var(--ease-cinematic)} .lightbox.snap-back{transition:background 220ms var(--ease-cinematic)} .lightbox.dismissing{transition:opacity 280ms var(--ease-cinematic), background 280ms var(--ease-cinematic);pointer-events:none} .lightbox.dismissing .lightbox-frame{transition:transform 280ms var(--ease-cinematic)} }
 .lightbox.open{pointer-events:auto}
 .lightbox-frame{width:min(80vw, 1600px);max-height:88vh;display:grid;grid-template-columns:1fr 320px;gap:0;border:1px solid var(--border);background:var(--bg-elevated)}
 @media (max-width:1100px){ .lightbox-frame{grid-template-columns:minmax(0,1fr);width:100%;max-width:100vw;max-height:none;overflow-x:hidden} .lightbox-frame > *{min-width:0;max-width:100%} }

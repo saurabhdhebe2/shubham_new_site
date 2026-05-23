@@ -17,6 +17,7 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
   const [loading, setLoading] = useState(true);
   const [iris, setIris] = useState(false);
   const stripRef = useRef(null);
+  const lightboxRef = useRef(null);
 
   useEffect(() => {
     if (!project) return;
@@ -27,9 +28,88 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
     };
     document.body.style.overflow = 'hidden';
     window.addEventListener('keydown', onKey);
+
+    // Swipe-down to dismiss (mobile / touch only)
+    const el = lightboxRef.current;
+    const isTouch = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+    let cleanupTouch = () => {};
+    if (el && isTouch) {
+      const frame = el.querySelector('.lightbox-frame');
+      let startY = 0, startScrollTop = 0, dragging = false, decided = false, dy = 0, startT = 0;
+      const reset = () => {
+        if (frame) frame.style.transform = '';
+        el.style.background = '';
+        el.classList.remove('snap-back');
+      };
+      const onTouchStart = (e) => {
+        const t = e.target;
+        if (t && t.closest && t.closest('.lightbox-meta, .strip-track, iframe')) {
+          decided = true; dragging = false; return;
+        }
+        startY = e.touches[0].clientY;
+        startScrollTop = el.scrollTop;
+        startT = Date.now();
+        dy = 0;
+        dragging = false;
+        decided = false;
+        el.classList.remove('snap-back');
+      };
+      const onTouchMove = (e) => {
+        if (decided && !dragging) return;
+        const y = e.touches[0].clientY;
+        dy = y - startY;
+        if (!decided) {
+          if (dy > 8 && startScrollTop <= 0) { dragging = true; decided = true; }
+          else if (Math.abs(dy) > 8) { decided = true; dragging = false; return; }
+          else return;
+        }
+        if (!dragging) return;
+        if (dy < 0) dy = 0;
+        if (e.cancelable) e.preventDefault();
+        const eased = dy * 0.85;
+        if (frame) frame.style.transform = `translateY(${eased}px)`;
+        const o = Math.max(0.3, 1 - dy / 600);
+        el.style.background = `rgba(5,5,5,${0.95 * o})`;
+      };
+      const finish = () => {
+        if (!dragging) { reset(); return; }
+        const dt = Math.max(1, Date.now() - startT);
+        const v = dy / dt;
+        const shouldClose = dy > 140 || (dy > 60 && v > 0.6);
+        if (shouldClose) {
+          el.classList.add('dismissing');
+          if (frame) frame.style.transform = `translateY(100vh)`;
+          el.style.opacity = '0';
+          const done = () => { el.removeEventListener('transitionend', done); onClose(); };
+          el.addEventListener('transitionend', done);
+          setTimeout(done, 360);
+        } else {
+          el.classList.add('snap-back');
+          if (frame) frame.style.transform = '';
+          el.style.background = '';
+          const done = () => { el.removeEventListener('transitionend', done); el.classList.remove('snap-back'); };
+          el.addEventListener('transitionend', done);
+          setTimeout(done, 280);
+        }
+        dragging = false;
+      };
+      el.addEventListener('touchstart', onTouchStart, { passive: true });
+      el.addEventListener('touchmove', onTouchMove, { passive: false });
+      el.addEventListener('touchend', finish, { passive: true });
+      el.addEventListener('touchcancel', finish, { passive: true });
+      cleanupTouch = () => {
+        el.removeEventListener('touchstart', onTouchStart);
+        el.removeEventListener('touchmove', onTouchMove);
+        el.removeEventListener('touchend', finish);
+        el.removeEventListener('touchcancel', finish);
+        reset();
+      };
+    }
+
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', onKey);
+      cleanupTouch();
     };
   }, [project, onClose, onNav]);
 
@@ -66,6 +146,7 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
 
   return (
     <div
+      ref={lightboxRef}
       className={'lightbox open' + (iris ? ' iris-open' : '')}
       style={irisStyle}
       onClick={(e) => { if (e.target.classList.contains('lightbox')) onClose(); }}
@@ -78,11 +159,11 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
           {project.youtubeId ? (
             <iframe
               key={project.youtubeId}
-              src={`https://www.youtube.com/embed/${project.youtubeId}?autoplay=1&rel=0&modestbranding=1&color=white`}
+              src={iris ? `https://www.youtube.com/embed/${project.youtubeId}?autoplay=1&rel=0&modestbranding=1&color=white` : 'about:blank'}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
               title={project.title}
-              onLoad={() => setLoading(false)}
+              onLoad={() => { if (iris) setLoading(false); }}
             />
           ) : (
             <>
@@ -101,7 +182,7 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
             </>
           )}
           {project.youtubeId && (
-            <div className={`lb-loading${loading ? '' : ' hidden'}`}>
+            <div className={`lb-loading${iris && !loading ? ' hidden' : ''}`}>
               <span className="ap-bars"><span /><span /><span /><span /></span>
               <span className="lb-loading-label">Loading</span>
             </div>
@@ -116,8 +197,12 @@ export default function Lightbox({ project, videos, origin, onClose, onNav, onJu
               <span className="lb-arrow-icon"><Arrow /></span>
             </button>
           </div>
-          <div className="lb-letterbox lb-letterbox-top" aria-hidden="true" />
-          <div className="lb-letterbox lb-letterbox-bot" aria-hidden="true" />
+          {!project.youtubeId && (
+            <>
+              <div className="lb-letterbox lb-letterbox-top" aria-hidden="true" />
+              <div className="lb-letterbox lb-letterbox-bot" aria-hidden="true" />
+            </>
+          )}
         </div>
 
         <div className="lightbox-meta">
