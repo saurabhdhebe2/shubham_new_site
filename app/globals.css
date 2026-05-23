@@ -532,7 +532,7 @@ button{font-family:inherit;color:inherit}
 @media (max-width:900px){ .lightbox{padding:0;align-items:flex-start;padding-top:0;clip-path:none} .lightbox.iris-open{clip-path:none;transition:opacity var(--dur-slow) var(--ease-cinematic)} .lightbox-frame{width:100%;max-height:none;border:none;border-radius:0;min-height:100dvh} }
 .lightbox.open{opacity:1;pointer-events:auto}
 .lightbox-frame{width:min(80vw, 1600px);max-height:88vh;display:grid;grid-template-columns:1fr 320px;gap:0;border:1px solid var(--border);background:var(--bg-elevated)}
-@media (max-width:1100px){ .lightbox-frame{grid-template-columns:1fr;width:100%;max-height:none} }
+@media (max-width:1100px){ .lightbox-frame{grid-template-columns:minmax(0,1fr);width:100%;max-width:100vw;max-height:none;overflow-x:hidden} .lightbox-frame > *{min-width:0;max-width:100%} }
 .lightbox iframe{border:none;width:100%;height:100%;position:absolute;inset:0;z-index:4}
 .lightbox-player{aspect-ratio:16/9;background:#000;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .lb-letterbox{position:absolute;left:0;right:0;height:0;background:#000;z-index:6;pointer-events:none;transition:height 360ms var(--ease-cinematic) 80ms}
@@ -555,6 +555,14 @@ button{font-family:inherit;color:inherit}
 .lightbox-meta .row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
 .lightbox-meta .row .k{color:var(--fg-muted);font:500 10px/1 var(--font-mono);letter-spacing:.18em;text-transform:uppercase}
 .lightbox-meta .row .v{color:var(--fg);text-align:right}
+@media (max-width:1100px){
+  .lightbox-meta h3{font-size:clamp(22px, 6vw, 30px);overflow-wrap:anywhere;word-break:break-word}
+  .lightbox-meta .row{flex-wrap:wrap;gap:6px}
+  .lightbox-meta .row .v{text-align:left;min-width:0;word-break:break-word;flex:1 1 auto}
+}
+@media (max-width:900px){
+  .lightbox-meta{padding:20px 16px}
+}
 .lightbox-close{position:absolute;top:24px;right:24px;width:44px;height:44px;border:1px solid var(--border-strong);background:rgba(10,10,10,.6);color:var(--fg);border-radius:50%;cursor:none;z-index:10;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
 .lightbox-close:hover{background:var(--accent);color:var(--bg);border-color:var(--accent)}
 /* Netflix-style edge arrows (desktop, overlaid on player) */
@@ -607,7 +615,8 @@ button{font-family:inherit;color:inherit}
 }
 
 /* Filmstrip thumbnail navigator (bottom of lightbox-frame) */
-.lightbox-strip{grid-column:1 / -1;position:relative;display:flex;flex-direction:column;gap:8px;padding:14px 20px 16px;background:#050505;border-top:1px solid var(--border)}
+.lightbox-strip{grid-column:1 / -1;position:relative;display:flex;flex-direction:column;gap:8px;padding:14px 20px 16px;background:#050505;border-top:1px solid var(--border);min-width:0;max-width:100%;overflow:hidden}
+.lightbox-strip .strip-track{min-width:0;max-width:100%}
 .lightbox-strip .strip-label{font:500 9px/1 var(--font-mono);letter-spacing:.28em;text-transform:uppercase;color:var(--fg-subtle)}
 .lightbox-strip .strip-track{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin;scrollbar-color:var(--border-strong) transparent}
 .lightbox-strip .strip-track::-webkit-scrollbar{height:4px}
