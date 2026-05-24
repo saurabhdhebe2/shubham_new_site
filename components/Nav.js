@@ -1,6 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
-import Logo from './Logo';
+import Image from 'next/image';
 import MumbaiClock from './MumbaiClock';
 import { Arrow, MenuLines } from './Icons';
 import { NAV_LINKS } from '@/lib/data';
@@ -24,7 +24,14 @@ export default function Nav({ onContact, onScrollTo }) {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           style={{ background: 'transparent', border: 'none', cursor: 'none', padding: 0 }}
         >
-          <Logo size="sm" />
+          <Image
+            src="/logo.png"
+            alt="Shubham Film Productions"
+            width={750}
+            height={750}
+            preload
+            style={{ height: 120, width: 'auto', display: 'block' }}
+          />
         </button>
         <div className="nav-links">
           {NAV_LINKS.map(l => (

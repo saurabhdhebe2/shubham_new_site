@@ -49,7 +49,7 @@ button{font-family:inherit;color:inherit}
 @media (max-width:900px){ .lens-flare{display:none} }
 
 /* Scene heading transitions (screenplay-style flash on section enter) */
-.scene-heading{position:fixed;top:120px;right:var(--gutter);z-index:55;display:flex;align-items:baseline;gap:10px;font:500 10px/1 var(--font-mono);letter-spacing:.28em;text-transform:uppercase;color:var(--fg);pointer-events:none;animation:sh-flash 1600ms var(--ease-cinematic) both}
+.scene-heading{position:fixed;top:150px;right:var(--gutter);z-index:55;display:flex;align-items:baseline;gap:10px;font:500 10px/1 var(--font-mono);letter-spacing:.28em;text-transform:uppercase;color:var(--fg);pointer-events:none;animation:sh-flash 1600ms var(--ease-cinematic) both}
 .scene-heading .sh-verb{color:var(--accent-hot)}
 .scene-heading .sh-label{color:var(--fg)}
 @keyframes sh-flash{
@@ -58,7 +58,7 @@ button{font-family:inherit;color:inherit}
   78%{opacity:1;transform:translateY(0)}
   100%{opacity:0;transform:translateY(-2px)}
 }
-@media (max-width:700px){ .scene-heading{top:100px;font-size:9px;letter-spacing:.22em} }
+@media (max-width:700px){ .scene-heading{top:150px;font-size:9px;letter-spacing:.22em} }
 @media (max-width:500px){ .scene-heading{display:none} }
 @media (prefers-reduced-motion: reduce){ .scene-heading{display:none} }
 
@@ -75,7 +75,7 @@ button{font-family:inherit;color:inherit}
 
 /* Nav */
 .nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-  padding:20px var(--gutter);transition:background var(--dur-slow) var(--ease-cinematic), border-color var(--dur-slow);
+  padding:5px var(--gutter);transition:background var(--dur-slow) var(--ease-cinematic), border-color var(--dur-slow);
   border-bottom:1px solid transparent}
 .nav.scrolled{background:rgba(10,10,10,.7);backdrop-filter:blur(20px) saturate(140%);-webkit-backdrop-filter:blur(20px) saturate(140%);border-bottom-color:var(--border)}
 .nav-logo{display:flex;align-items:center;position:relative;color:var(--fg);transition:color var(--dur-fast)}
@@ -109,9 +109,9 @@ button{font-family:inherit;color:inherit}
 .btn-sm{height:44px;padding:0 20px;font-size:11px}
 
 /* Hero sits below the fixed nav with breathing room */
-.hero{position:relative;margin-top:96px;min-height:calc(100vh - 96px);height:auto;overflow:hidden;display:flex;align-items:flex-end;border-top:1px solid var(--border)}
-@media (max-width:900px){ .hero{margin-top:76px;min-height:calc(100vh - 76px)} }
-@media (max-width:600px){ .hero{margin-top:72px;min-height:calc(88vh - 72px)} }
+.hero{position:relative;margin-top:140px;min-height:calc(100vh - 140px);height:auto;overflow:hidden;display:flex;align-items:flex-end;border-top:1px solid var(--border)}
+@media (max-width:900px){ .hero{margin-top:140px;min-height:calc(100vh - 140px)} }
+@media (max-width:600px){ .hero{margin-top:140px;min-height:calc(88vh - 140px)} }
 .hero-reel{position:absolute;inset:0;background:#000;overflow:hidden}
 /* YouTube iframe scaled up aggressively to push YT title bar + bottom control
    bar off-screen, so only the video frame is visible. */
@@ -212,10 +212,10 @@ button{font-family:inherit;color:inherit}
 /* Sticky filter wrapper - filter pills stay pinned at the top of the viewport
    (centered) while scrolling through the Work section, then unstick when the
    section ends. */
-.filter-bar-sticky{position:sticky;top:88px;z-index:30;display:flex;justify-content:center;padding:14px 0;margin-bottom:48px;background:linear-gradient(180deg,rgba(10,10,10,.85) 0%,rgba(10,10,10,.7) 70%,rgba(10,10,10,0) 100%);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:none}
+.filter-bar-sticky{position:sticky;top:140px;z-index:30;display:flex;justify-content:center;padding:14px 0;margin-bottom:48px;background:linear-gradient(180deg,rgba(10,10,10,.85) 0%,rgba(10,10,10,.7) 70%,rgba(10,10,10,0) 100%);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:none}
 .filter-bar-sticky > *{pointer-events:auto}
-@media (max-width:900px){ .filter-bar-sticky{top:72px;margin-bottom:32px} }
-@media (max-width:600px){ .filter-bar-sticky{top:68px;padding:10px 0;margin-bottom:20px} }
+@media (max-width:900px){ .filter-bar-sticky{top:140px;margin-bottom:32px} }
+@media (max-width:600px){ .filter-bar-sticky{top:140px;padding:10px 0;margin-bottom:20px} }
 
 .filter-bar{display:flex;gap:8px;align-items:center;padding:8px;border:1px solid var(--border);border-radius:999px;width:fit-content;background:rgba(20,20,20,.85);backdrop-filter:blur(8px);flex-wrap:wrap}
 /* On mobile, force a tight 3x2 grid so all 6 categories fit in exactly 2 rows
@@ -648,7 +648,7 @@ button{font-family:inherit;color:inherit}
 
 /* Mobile nav overlay */
 .mob-toggle{display:none;width:44px;height:44px;background:transparent;border:1px solid var(--border-strong);border-radius:50%;color:var(--fg);align-items:center;justify-content:center;cursor:pointer}
-@media (max-width:900px){ .mob-toggle{display:flex} .nav-cta{display:none} .nav{padding:14px var(--gutter)} }
+@media (max-width:900px){ .mob-toggle{display:flex} .nav-cta{display:none} .nav{padding:5px var(--gutter)} }
 .mob-overlay{position:fixed;inset:0;background:var(--bg);z-index:90;opacity:0;pointer-events:none;transition:opacity var(--dur-slow) var(--ease-cinematic);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:80px var(--gutter);gap:4px;overflow-y:auto}
 .mob-overlay.open{opacity:1;pointer-events:auto}
 .mob-overlay a{font-family:var(--font-display);font-size:clamp(44px, 11vw, 72px);line-height:1.1;margin:6px 0;color:var(--fg);display:flex;align-items:center;gap:14px}
