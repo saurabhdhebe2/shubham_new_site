@@ -51,6 +51,16 @@ export default function Testimonials() {
               </button>
             </div>
           </div>
+          <a
+            className="testimonial-more"
+            href="https://www.google.com/search?sca_esv=f08850460d6ebeaa&cs=1&output=search&kgmid=/g/11ldx5xdyq&q=Shubham+Film+Productions&shem=rimspwouoe&shndl=30&source=sh/x/loc/uni/m1/1&kgs=67993b66ce6867ec&utm_source=rimspwouoe,sh/x/loc/uni/m1/1"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="Open"
+          >
+            <span>Read all reviews on Google</span>
+            <Arrow size={12} />
+          </a>
         </div>
         {!paused && (
           <div className="testimonial-bar">
