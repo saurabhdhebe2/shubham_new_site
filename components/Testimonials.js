@@ -16,7 +16,7 @@ export default function Testimonials() {
   const t = TESTIMONIALS[idx];
 
   return (
-    <section id="about" className="section" style={{ paddingTop: 0, paddingLeft: 0, paddingRight: 0 }}
+    <section id="reviews" className="section" style={{ paddingTop: 0, paddingLeft: 0, paddingRight: 0 }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -53,7 +53,7 @@ export default function Testimonials() {
           </div>
           <a
             className="testimonial-more"
-            href="https://www.google.com/search?sca_esv=f08850460d6ebeaa&cs=1&output=search&kgmid=/g/11ldx5xdyq&q=Shubham+Film+Productions&shem=rimspwouoe&shndl=30&source=sh/x/loc/uni/m1/1&kgs=67993b66ce6867ec&utm_source=rimspwouoe,sh/x/loc/uni/m1/1"
+            href="https://www.google.com/search?sca_esv=f08850460d6ebeaa&cs=1&sxsrf=ANbL-n4qE3bO9sNNKrk1L48dXLhLhXLtZg:1779614784650&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOfotvedNkLnmtRKxt80Y5xkgO_yERzgHysZcQrRpL_phdCu4KWZeNNVZbKmenEDHF0OEFZDmorn0mHucki5H0NyectuDa4sUBo_QROOgH-H_pAydPw%3D%3D&q=Shubham+Film+Productions+Reviews&sa=X&ved=2ahUKEwjl1c3YzdGUAxVPzDgGHQLOE4sQ0bkNegQIHxAH&cshid=1779614898672662&biw=1425&bih=685&dpr=2"
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="Open"

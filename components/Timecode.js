@@ -9,7 +9,7 @@ const MARKERS = [
   { id: 'work',     label: '01 · Work' },
   { id: 'services', label: '02 · Services' },
   { id: 'process',  label: '03 · Process' },
-  { id: 'about',    label: '04 · About' },
+  { id: 'reviews',  label: '04 · Reviews' },
   { id: 'contact',  label: '05 · Contact' },
 ];
 

@@ -5,7 +5,7 @@ import MumbaiClock from './MumbaiClock';
 import EndCredits from './EndCredits';
 import { CONTACT_EMAIL, CONTACT_PHONE, SOCIAL_LINKS, SHOT_ON } from '@/lib/data';
 
-const SITEMAP = ['work', 'services', 'process', 'about', 'contact'];
+const SITEMAP = ['work', 'services', 'process', 'reviews', 'contact'];
 const ELSEWHERE = [
   ['Instagram', SOCIAL_LINKS.instagram],
   ['YouTube', SOCIAL_LINKS.youtube],

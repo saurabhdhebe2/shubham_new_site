@@ -5,7 +5,7 @@ const SCENES = [
   { id: 'work',     verb: 'CUT TO',      label: 'SELECTED WORK' },
   { id: 'services', verb: 'DISSOLVE TO', label: 'SERVICES' },
   { id: 'process',  verb: 'MATCH CUT',   label: 'PROCESS' },
-  { id: 'about',    verb: 'SMASH CUT',   label: 'WORDS ON THE WORK' },
+  { id: 'reviews',  verb: 'SMASH CUT',   label: 'WORDS ON THE WORK' },
   { id: 'contact',  verb: 'FADE IN',     label: 'BOOK A CALL' },
   { id: 'journal',  verb: 'FADE OUT',    label: 'END' },
 ];
