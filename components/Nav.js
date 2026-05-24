@@ -30,7 +30,7 @@ export default function Nav({ onContact, onScrollTo }) {
             width={750}
             height={750}
             preload
-            style={{ height: 120, width: 'auto', display: 'block' }}
+            className="nav-logo-img"
           />
         </button>
         <div className="nav-links">
