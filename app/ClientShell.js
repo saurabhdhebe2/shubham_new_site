@@ -16,6 +16,7 @@ import AudioPlayer from '@/components/AudioPlayer';
 import Timecode from '@/components/Timecode';
 import FilmLeader from '@/components/FilmLeader';
 import SceneHeading from '@/components/SceneHeading';
+import DialogueSubtitle from '@/components/DialogueSubtitle';
 
 export default function ClientShell({ videos }) {
   const [contactOpen, setContactOpen] = useState(false);
@@ -56,6 +57,7 @@ export default function ClientShell({ videos }) {
       <FilmLeader />
       <CustomCursor />
       <AudioPlayer paused={!!lightbox} />
+      <DialogueSubtitle paused={!!lightbox || contactOpen} />
       <Timecode />
       <SceneHeading />
       <div className="grain" />
