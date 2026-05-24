@@ -91,10 +91,6 @@ export const metadata = {
       "max-video-preview": -1,
     },
   },
-  icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-icon.png",
-  },
   verification: {
     // Add your Google Search Console / Bing verification codes here when you have them:
     // google: "...",

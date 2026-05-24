@@ -92,7 +92,7 @@ export default function Footer({ onContact }) {
       <EndCredits />
 
       <div className="footer-bar">
-        <span>© 2026 Shubham Film Productions · Mumbai · All rights reserved</span>
+        <span>© 2026 Shubham Film Productions · Mumbai · All rights reserved · <a href="https://www.flaticon.com/free-icons/film-roll" target="_blank" rel="noopener noreferrer" title="Film roll icons created by Flaticon">Icon ↗</a></span>
         <span className="footer-status">
           <span className="dot" />{currentMonth ? `Currently open for ${currentMonth} onwards bookings` : 'Currently open for bookings'}
         </span>
