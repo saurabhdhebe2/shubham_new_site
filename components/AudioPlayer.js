@@ -1,6 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { Speaker, Pause } from '@/components/Icons';
+import { Play, Pause } from '@/components/Icons';
 
 const AUDIO_ENABLED = process.env.NEXT_PUBLIC_ENABLE_AUDIO === 'true';
 const AUDIO_SRC     = process.env.NEXT_PUBLIC_AUDIO_SRC   || '/piano-man.mp3';
@@ -11,7 +11,7 @@ export default function AudioPlayer({ paused = false }) {
 
   const audioRef = useRef(null);
   const [consent, setConsent] = useState(null);
-  const [muted, setMuted] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [askVisible, setAskVisible] = useState(false);
 
@@ -24,7 +24,7 @@ export default function AudioPlayer({ paused = false }) {
     if (consent !== 'yes') return;
     const a = audioRef.current;
     if (!a) return;
-    if (paused) {
+    if (paused || userPaused) {
       a.pause();
       setPlaying(false);
       return;
@@ -38,7 +38,7 @@ export default function AudioPlayer({ paused = false }) {
       document.addEventListener('scroll', retry, { once: true, capture: true });
       document.addEventListener('keydown', retry, { once: true });
     });
-  }, [consent, paused]);
+  }, [consent, paused, userPaused]);
 
   const accept = () => {
     setAskVisible(false);
@@ -50,12 +50,10 @@ export default function AudioPlayer({ paused = false }) {
     setConsent('no');
   };
 
-  const toggle = () => {
-    const a = audioRef.current;
-    if (!a) return;
-    if (muted) { a.muted = false; setMuted(false); }
-    else       { a.muted = true;  setMuted(true);  }
-  };
+  const toggle = () => setUserPaused(p => !p);
+
+  const showPlayIcon = userPaused || paused;
+  const hint = showPlayIcon ? 'Click to play' : 'Click to pause';
 
   return (
     <>
@@ -78,19 +76,14 @@ export default function AudioPlayer({ paused = false }) {
       )}
 
       {consent === 'yes' && (
-        <div className={`audio-player${playing ? ' ap-playing' : ''}${muted ? ' ap-muted' : ''}${paused ? ' ap-paused' : ''}`}>
-          <button className="ap-btn" onClick={toggle} aria-label={muted ? 'Unmute' : 'Mute'}>
-            {paused ? (
-              <Pause size={18} />
-            ) : muted ? (
-              <Speaker muted size={18} />
-            ) : (
-              <span className="ap-bars">
-                <span /><span /><span /><span />
-              </span>
-            )}
+        <div className={`audio-player${playing ? ' ap-playing' : ''}${showPlayIcon ? ' ap-paused' : ''}`}>
+          <span className="ap-label">
+            <span className="ap-hint">{hint}</span>
+            <span className="ap-title">{AUDIO_TITLE}</span>
+          </span>
+          <button className="ap-btn" onClick={toggle} aria-label={showPlayIcon ? 'Play music' : 'Pause music'} title={hint}>
+            {showPlayIcon ? <Play size={16} /> : <Pause size={16} />}
           </button>
-          <span className="ap-label">{AUDIO_TITLE}</span>
           <audio ref={audioRef} src={AUDIO_SRC} loop preload="auto" />
         </div>
       )}

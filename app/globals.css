@@ -213,7 +213,7 @@ button{font-family:inherit;color:inherit}
 /* Sticky filter wrapper - filter pills stay pinned at the top of the viewport
    (centered) while scrolling through the Work section, then unstick when the
    section ends. */
-.filter-bar-sticky{position:sticky;top:95px;z-index:30;display:flex;justify-content:center;padding:14px 0;margin-bottom:48px;background:linear-gradient(180deg,rgba(10,10,10,.85) 0%,rgba(10,10,10,.7) 70%,rgba(10,10,10,0) 100%);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);pointer-events:none}
+.filter-bar-sticky{position:sticky;top:95px;z-index:30;display:flex;justify-content:center;padding:14px 0;margin-bottom:48px;pointer-events:none}
 .filter-bar-sticky > *{pointer-events:auto}
 @media (max-width:900px){ .filter-bar-sticky{top:100px;margin-bottom:32px} }
 @media (max-width:600px){ .filter-bar-sticky{top:80px;padding:10px 0;margin-bottom:20px} }
@@ -669,8 +669,8 @@ button{font-family:inherit;color:inherit}
 }
 
 /* ── Audio Player ───────────────────────────── */
-.audio-player{position:fixed;bottom:28px;right:28px;z-index:900;display:flex;align-items:center;gap:10px;background:rgba(20,20,20,.72);border:1px solid var(--border-strong);border-radius:999px;padding:0 10px 0 8px;height:40px;backdrop-filter:blur(14px);overflow:hidden;max-width:44px;transition:max-width var(--dur-slow) var(--ease-cinematic),padding var(--dur-slow) var(--ease-cinematic)}
-.audio-player:hover{max-width:220px;padding:0 16px 0 10px}
+.audio-player{position:fixed;bottom:28px;right:28px;z-index:900;display:flex;align-items:center;justify-content:flex-end;gap:10px;background:rgba(20,20,20,.72);border:1px solid var(--border-strong);border-radius:999px;padding:0 8px 0 10px;height:40px;backdrop-filter:blur(14px);overflow:hidden;max-width:44px;transition:max-width var(--dur-slow) var(--ease-cinematic),padding var(--dur-slow) var(--ease-cinematic)}
+.audio-player:hover{max-width:220px;padding:0 10px 0 16px}
 .ap-btn{background:none;border:none;cursor:pointer;padding:4px;display:flex;align-items:center;flex-shrink:0;color:var(--fg)}
 .ap-bars{display:flex;align-items:flex-end;gap:2.5px;height:18px}
 .ap-bars span{display:block;width:3px;height:6px;background:currentColor;border-radius:2px;transform-origin:bottom;transition:transform var(--dur-fast)}
@@ -680,7 +680,9 @@ button{font-family:inherit;color:inherit}
 .ap-playing .ap-bars span:nth-child(4){animation:ap-bar .9s ease-in-out infinite .15s}
 @keyframes ap-bar{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .ap-muted .ap-bars{opacity:.35}
-.ap-label{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);white-space:nowrap;opacity:0;transition:opacity var(--dur-fast) ease}
+.ap-label{display:inline-flex;flex-direction:column;align-items:flex-end;line-height:1.1;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--fg-muted);white-space:nowrap;opacity:0;transition:opacity var(--dur-fast) ease}
+.ap-label .ap-hint{color:var(--accent);font-size:9px;letter-spacing:.12em;opacity:.9}
+.ap-label .ap-title{color:var(--fg-muted)}
 .audio-player:hover .ap-label{opacity:1}
 @media (max-width:600px){
   .audio-player{bottom:20px;right:16px}
