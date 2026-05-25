@@ -7,13 +7,12 @@ const HOLD_MS = 5500;
 const FADE_MS = 600;
 const START_DELAY_MS = 3200;
 
-function shuffle(arr) {
-  const a = arr.slice();
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+function pickRandom(arr, exclude) {
+  if (arr.length <= 1) return arr[0];
+  let pick;
+  do { pick = arr[Math.floor(Math.random() * arr.length)]; }
+  while (pick === exclude);
+  return pick;
 }
 
 export default function DialogueSubtitle({ paused }) {
@@ -29,23 +28,16 @@ export default function DialogueSubtitle({ paused }) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     if (!window.matchMedia('(hover: hover)').matches) return;
 
-    let deck = shuffle(DIALOGUES);
-    let cursor = 0;
+    let lastLine = null;
     let idleTimer = null;
     let holdTimer = null;
     let clearTimer = null;
     let isVisible = false;
 
     const nextLine = () => {
-      if (cursor >= deck.length) {
-        const prevLast = deck[deck.length - 1];
-        deck = shuffle(DIALOGUES);
-        if (deck[0] === prevLast && deck.length > 1) {
-          [deck[0], deck[1]] = [deck[1], deck[0]];
-        }
-        cursor = 0;
-      }
-      return deck[cursor++];
+      const pick = pickRandom(DIALOGUES, lastLine);
+      lastLine = pick;
+      return pick;
     };
 
     const scheduleIdle = () => {
