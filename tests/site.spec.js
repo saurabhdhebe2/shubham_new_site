@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-const HERO_VIDEO_ID = 'djC_8Xwzh2o';
-
 test.describe('Shubham Film Productions basic UI', () => {
   test('hero renders headline and primary actions', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
@@ -11,14 +9,14 @@ test.describe('Shubham Film Productions basic UI', () => {
     await expect(page.getByRole('button', { name: /contact/i }).first()).toBeVisible();
   });
 
-  test('hero loads the YouTube background video', async ({ page }) => {
+  test('hero loads the local background video', async ({ page }) => {
     await page.goto('/', { waitUntil: 'domcontentloaded' });
-    const iframe = page.locator('iframe.hero-bg-video');
-    await expect(iframe).toBeAttached();
-    const src = await iframe.getAttribute('src');
-    expect(src).toContain(HERO_VIDEO_ID);
-    expect(src).toContain('autoplay=1');
-    expect(src).toContain('mute=1');
+    const video = page.locator('video.hero-bg-video');
+    await expect(video).toBeAttached();
+    await expect(video).toHaveAttribute('src', '/herosection.mp4');
+    await expect(video).toHaveJSProperty('autoplay', true);
+    await expect(video).toHaveJSProperty('muted', true);
+    await expect(video).toHaveJSProperty('loop', true);
   });
 
   test('clicking nav link scrolls to Work section', async ({ page }) => {

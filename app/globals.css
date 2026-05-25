@@ -118,11 +118,7 @@ button{font-family:inherit;color:inherit}
 @media (max-width:900px){ .hero{margin-top:100px;min-height:calc(100vh - 100px)} }
 @media (max-width:600px){ .hero{margin-top:80px;min-height:calc(88vh - 80px)} }
 .hero-reel{position:absolute;inset:0;background:#000;overflow:hidden}
-/* YouTube iframe scaled up aggressively to push YT title bar + bottom control
-   bar off-screen, so only the video frame is visible. */
-.hero-bg-video{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;min-width:177.78vh;min-height:100%;transform:translate(-50%,-50%) scale(calc(1.9 + var(--dolly,0) * 0.18));transform-origin:center;border:0;pointer-events:none;transition:transform 80ms linear}
-@media (max-width:900px){ .hero-bg-video{transform:translate(-50%,-50%) scale(calc(2.6 + var(--dolly,0) * 0.2))} }
-@media (max-width:600px){ .hero-bg-video{transform:translate(-50%,-50%) scale(calc(3.4 + var(--dolly,0) * 0.22))} }
+.hero-bg-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0;pointer-events:none;transform:scale(calc(1.04 + var(--dolly,0) * 0.06));transform-origin:center;transition:transform 80ms linear}
 /* Top + bottom mask bars that hide any YT chrome that survives the scale-crop
    (title overlay, "watch on YouTube", paused-state replay button, etc.). */
 .hero-reel::before{content:'';position:absolute;left:0;right:0;top:0;height:96px;background:linear-gradient(180deg,#000 0%,#000 55%,transparent 100%);z-index:2;pointer-events:none}

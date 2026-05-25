@@ -3,10 +3,6 @@ import { useEffect, useRef } from 'react';
 import { Arrow, Play } from './Icons';
 import Slate from './Slate';
 
-// Env-configurable hero background video.
-// Set NEXT_PUBLIC_HERO_VIDEO_ID in .env.local (YouTube video ID, e.g. djC_8Xwzh2o)
-const HERO_VIDEO_ID = process.env.NEXT_PUBLIC_HERO_VIDEO_ID || 'djC_8Xwzh2o';
-
 export default function Hero({ onContact, onScrollTo }) {
   const sectionRef = useRef(null);
 
@@ -36,13 +32,15 @@ export default function Hero({ onContact, onScrollTo }) {
   return (
     <section id="top" className="hero" ref={sectionRef}>
       <div className="hero-reel">
-        <iframe
+        <video
           className="hero-bg-video"
-          src={`https://www.youtube.com/embed/${HERO_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HERO_VIDEO_ID}&controls=0&showinfo=0&modestbranding=1&playsinline=1&rel=0&disablekb=1&iv_load_policy=3&fs=0`}
-          title="Showreel"
-          allow="autoplay; encrypted-media; picture-in-picture"
-          allowFullScreen={false}
-          frameBorder="0"
+          src="/herosection.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden="true"
         />
         <div className="hero-bg-overlay" />
       </div>
