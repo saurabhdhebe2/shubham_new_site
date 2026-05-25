@@ -684,6 +684,7 @@ button{font-family:inherit;color:inherit}
 .ap-label .ap-hint{color:var(--accent);font-size:9px;letter-spacing:.12em;opacity:.9}
 .ap-label .ap-title{color:var(--fg-muted)}
 .audio-player:hover .ap-label{opacity:1}
+.audio-player.ap-hidden{opacity:0;pointer-events:none;visibility:hidden;transition:opacity var(--dur-fast) ease,visibility 0s linear var(--dur-fast)}
 @media (max-width:600px){
   .audio-player{bottom:20px;right:16px}
   .audio-player:hover{max-width:44px;padding:0 10px 0 8px}

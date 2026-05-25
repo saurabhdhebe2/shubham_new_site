@@ -76,7 +76,7 @@ export default function AudioPlayer({ paused = false }) {
       )}
 
       {consent === 'yes' && (
-        <div className={`audio-player${playing ? ' ap-playing' : ''}${showPlayIcon ? ' ap-paused' : ''}`}>
+        <div className={`audio-player${playing ? ' ap-playing' : ''}${showPlayIcon ? ' ap-paused' : ''}${paused ? ' ap-hidden' : ''}`}>
           <span className="ap-label">
             <span className="ap-hint">{hint}</span>
             <span className="ap-title">{AUDIO_TITLE}</span>
