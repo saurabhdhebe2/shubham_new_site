@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 const RANGES = {
-  desktop: { min: 128, max: 132 }, // logo 120 + 2*5 padding
+  desktop: { min: 108, max: 112 }, // logo 100 + 2*5 padding
   tablet:  { min: 88,  max: 92  }, // logo 80  + 2*5 padding
   mobile:  { min: 64,  max: 68  }, // logo 56  + 2*5 padding
 };
